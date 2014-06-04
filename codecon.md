@@ -3,16 +3,126 @@
 Adhering to best practices while developing applications leads to code that is more maintainable, extensible, and testable. Understanding the rationale behind each best practice enables the programmer to make good judgment calls in situations where best practices are not clearly defined, or when it may be appropriate to deviate from best practices.
 
 * New objects: use `{}` instead of `new Object()`
-	* Correct:
 ```javascript
+// Correct
+var data = {};
+var data = {
+	prop1: 'value'
+};
+
+// Incorrect:
+var data = new Object();
 ```
-	* Incorrect:
-<pre>
-</pre>
 * New arrays: use `[]` instead of `new Array()`
-* AJAX: keep it asynchronous
-* Minimize DOM access
-* Maintain persistent references to DOM objects or calculated values
+```javascript
+// Correct
+var data = [];
+var data = [1, 2, 3];
+
+// Incorrect
+var data = new Array();
+var data = new Array(1, 2, 3);
+```
+* Avoid duplicate keys in object literals:
+```javascript
+var data = {
+	srcUrl: 'http://company.com',
+	// Valid JavaScript, but bad practice:
+	srcUrl: 'http://abc.company.com'
+};
+```
+* Do not use the non-standard `__proto__` property
+* Do not unnecessarily quote property names
+```javascript
+// Correct
+var data = {
+	prop1: 'value',
+	prop2: 5,
+	'special-character-key': 'value'
+};
+
+// Incorrect
+var data = {
+	'prop1': 'value',
+	'prop2': 5
+};
+```
+* Do not use multi-line strings
+* Do not use octal escapes (deprecated in ES5; use Unicode or hex)
+* Use single quotes for strings (more convenient to type; don't require escaping double-quotes)
+* Always include leading and trailing digits in decimal values
+```javascript
+// Correct
+var num = 0.5;
+var num = 2.0;
+var num = -0.7;
+
+// Incorrect
+var num = .5;
+var num = 2.;
+var num = -.7;
+```
+* Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
+* Do not use empty character classes in regular expressions
+```javascript
+// Correct
+/^abc[b-e]/.test(foo);
+
+// Incorrect
+/^abc[]/.test(foo);
+```
+* Don't use repeated spaces in regular expressions (counting them is error-prone)
+```javascript
+// Correct
+var regex = /foo {3}bar/;
+
+// Incorrect
+var regex = /foo   bar/;
+```
+* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules.
+* Do not use the `caller` and `callee` properties of `arguments` (they are deprecated and prevent some code optimizations from being performed by the JavaScript engine)
+* Do not overwrite declared functions (leads to confusing code)
+```javascript
+var foo = function () { /* ... */ };
+// Incorrect: 'foo' is already defined!
+foo = function () { /* ... */ };
+```
+* Do not declare functions within loops
+* Do not declare variables within loops
+* Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
+```javascript
+// Correct
+foo();
+
+// Incorrect
+foo ();
+foo
+();
+```
+* Do not wrap function calls with unnecessary parentheses
+```javascript
+// Correct
+foo();
+
+// Incorrect
+(foo());
+```
+* Wrap IIFEs (Immediately Invoked Function Expressions) with parentheses
+```javascript
+// Correct
+(function () {
+	/* .... */
+}());
+
+// Incorrect
+function () {
+	/* .... */
+}();
+```
+* AJAX: keep it asynchronous (do not specify `true` for the `async` parameter to `XMLHttpRequest#open()`)
+* Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
+* Avoid repeated DOM access: maintain persistent references to DOM objects
+* Avoid unnecessary recalculation: maintain persisten references to calculated values
 * Avoid deeply nested functions
 * Optimize some loops
 * Cache collection lengths (e.g. array.length, NodeList.length) when iterating
@@ -34,7 +144,7 @@ misc
 * Filter `for...in` statements with `hasOwnProperty`
 * Use parentheses for IIFEs
 * Avoid using `with`
-* Don't modify native object prototypes (e.g. `Array`, `Object`)
+* Do not modify native object prototypes (e.g. `Array`, `Object`)
 * Use feature detection instead of browser detection
 
 
