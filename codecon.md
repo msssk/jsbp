@@ -87,8 +87,8 @@ var foo = function () { /* ... */ };
 // Incorrect: 'foo' is already defined!
 foo = function () { /* ... */ };
 ```
-* Do not declare functions within loops
-* Do not declare variables within loops
+* Do not declare functions within loops (bad for performance)
+* Do not declare variables within loops (bad for performance)
 * Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
 ```javascript
 // Correct
@@ -118,6 +118,82 @@ foo();
 function () {
 	/* .... */
 }();
+```
+* Use camel-casing for naming
+* Start constructor names with a capital letter
+* Use a consistent variable name as an alias for `this` (recommended: `self`). Aliasing `this` is useful when calling functions that lose context.
+* Do not reuse variable names as label names
+* Do not use trailing underscores in variable names
+* Do not reuse variable names in the parameter list to a `catch` clause (in IE <9 the `catch` clause does not create its own scope)
+```javascript
+var err = 'x';
+try {
+	throw 'problem';
+}
+catch (err) {
+	// As expected, 'err' is 'problem', not 'x'
+}
+// Unexpected: 'err' is 'problem', not 'x'!
+```
+* Do not use trailing commas (behavior is inconsistent across browsers)
+```javascript
+// Correct
+var data = {
+	foo: 1,
+	bar: 2
+};
+var data = [
+	1,
+	2
+];
+
+// Incorrect
+var data = {
+	foo: 1,
+	bar: 2,
+};
+var data = [
+	1,
+	2,
+];
+```
+* Do not delete object properties (can hinder code optimization; set to `null` instead)
+* Do not assign a value to the exception parameter in a `catch` block
+```javascript
+// Incorrect
+try {
+	/* ... */
+}
+catch (error) {
+	error = 5;
+}
+```
+* Do not overwrite native objects (any object provided by the runtime environment, e.g. 'Array', 'Math', etc.)
+* Do not redeclare variables (can be confusing)
+* Do not shadow variables (can be confusing)
+```javascript
+var foo = 5;
+function () {
+	// Incorrect: shadows 'foo' from outer scope!
+	var foo = 2;
+}
+```
+* Do not shadow restricted names (do not use 'undefined', 'arguments', 'eval', 'NaN', 'Infinity', etc. as variable names)
+* Keep source code free of unused variables (they introduce clutter)
+* Define variables and functions before using them
+* Do not perform assignment in conditional expressions (reduces clarity, can be error-prone)
+```javascript
+// Correct
+var isAllowed = foo();
+if (isAllowed) {
+	/* .... */
+}
+
+// Incorrect
+var isAllowed;
+if (isAllowed = foo()) {
+	/* ... */
+}
 ```
 * AJAX: keep it asynchronous (do not specify `true` for the `async` parameter to `XMLHttpRequest#open()`)
 * Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
