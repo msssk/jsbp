@@ -15,7 +15,7 @@ Adhering to best practices while developing applications leads to code that is m
 * Define and adhere to a maximum line length (120 is reasonable for many development environments)
 * Eliminate trailing whitespace
 * Use consistent indentation
-* Use consistent whitespace
+* Use consistent whitespace between keywords, functions, and operators
 * Pad infix operators (+, -, etc.) with spaces on either side
 * Ensure that `return`, `throw`, and `case` are always followed by a space
 * Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
@@ -95,6 +95,9 @@ var foo = new Foo;
 
 ### Avoiding Pitfalls and Improving Correctness
 
+* Define variables and functions before using them (improves clarity; reduces pitfalls related to implicit globals and hoisting)
+* Declare all variables at the top of the scope and avoid implicit globals. Declaring variables at the top of the scope ensures that any assignment happens to the local reference.
+* Use strict comparison operators (`===` and `!==`) since the behavior is easier to understand and remember, and in most well-designed code is the desirable behavior anyway. (The rules JavaScript follows for the coercion can be complicated and few programmers know them all.)
 * Don't use repeated spaces in regular expressions (counting them is error-prone)
 ```javascript
 // Correct
@@ -165,7 +168,6 @@ function () {
 }
 ```
 * Do not shadow restricted names (do not use 'undefined', 'arguments', 'eval', 'NaN', 'Infinity', etc. as variable names)
-* Define variables and functions before using them (improves clarity; reduces pitfalls related to implicit globals and hoisting)
 * Do not perform assignment in conditional expressions (reduces clarity, can be error-prone)
 ```javascript
 // Correct
@@ -301,15 +303,7 @@ Syntactic conventions can be checked by linting tools like [JSHint](http://jshin
 
 Consistent spacing and syntax reduce the cognitive overhead of parsing programming language symbols and free the reader's mind to focus on understanding the concepts and flow communicated by the code.
 
-JavaScript has a few deficiencies that can be guarded against by using and enforcing coding conventions:
 
-* **Implicit globals**: assigning a value to an undeclared variable will automatically create a global variable and assign the value to it.
-	* **Suggestion**: declare all variables at the top of the scope and disallow implicit globals. Declaring variables at the top of the scope ensure that any assignment happens to the local reference.
-* **Type coercion**: JavaScript's C-like comparison operators (`==`, `!=`) will coerce the types of its operands to the same type. The rules JavaScript follows for the coercion can be complicated and few programmers know them all.
-	* **Suggestion**: use strict comparison operators (`===` and `!==`) since the behavior is easier to understand and remember, and in most well-designed code is the desirable behavior anyway.
-* **Automatic Semicolon Insertion** (ASI): the language syntax does not require lines to end with a semicolon, however, the rules for automatic semicolon insertion are not always intuitive.
-	* **Suggestion**: it is safest to always use a semicolon and not rely on ASI.
- 
 ## Documentation
 
 Source code should be composed with readability in mind, using meaningful names and modular code organization. Function names should be verbs, constructor and variable names should generally be nouns, and boolean variables should be descriptively prefixed (e.g. `isEnabled`, not `enabled`; `hasTouch`, not `touch`).
@@ -330,7 +324,7 @@ Keep each function or module simple and focused. It's easier to comprehend 50 li
 
 Organize code that handles separate concerns into separate functions or modules. Design each module to handle a specific set of concerns and avoid introducing code that performs external functionality. For example, calculating a list of values and updating the UI to display the values are separate concerns, so the code that handles these should be provided by separate modules. A module at a higher level of abstraction can manage references to each module and pass the output from the calculation process to the input of the UI updating process.
 
-Maintaining a clean separation of concerns contributes to readability, modularity, testability, extensibility, and reusability. In combination with modularity this greatly facilitates a layered approach to application architecture, where at the lowest level modules handle specific functionality like validating data or updating a small portion of the UI, and at progressively higher levels of abstraction modules are combined to handle processing data input, providing screens or pages of the UI, and at the top, loading the application and managing the entire application flow.
+Maintaining a clean separation of concerns contributes to readability, modularity, testability, extensibility, and reusability. This greatly facilitates a layered approach to application architecture, where at the lowest level modules handle specific functionality like validating data or updating a small portion of the UI, and at progressively higher levels of abstraction modules are combined to handle processing data input, providing screens or pages of the UI, and at the top, loading the application and managing the entire application flow.
 
 An important aspect of separation of concerns is loose coupling. Loose coupling is depending on the shape of a thing, not the specific name and location of a thing. If module A depends directly on module B, module A is somewhat tightly coupled to module B, i.e. module A cannot work without module B. When possible, modules should be designed to work with any object that supports an interface, the public methods and properties, of an object.
 
