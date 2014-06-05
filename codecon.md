@@ -97,7 +97,7 @@ var foo = new Foo;
 
 * Define variables and functions before using them (improves clarity; reduces pitfalls related to implicit globals and hoisting)
 * Declare all variables at the top of the scope and avoid implicit globals. Declaring variables at the top of the scope ensures that any assignment happens to the local reference.
-* Use strict comparison operators (`===` and `!==`) since the behavior is easier to understand and remember, and in most well-designed code is the desirable behavior anyway. (The rules JavaScript follows for the coercion can be complicated and few programmers know them all.)
+* Use strict comparison operators (`===` and `!==` instead of `==` and `!=`) since the behavior is easier to understand and remember, and in most well-designed code is the desirable behavior anyway. (The rules JavaScript follows for type coercion can be complicated and few programmers know them all.)
 * Don't use repeated spaces in regular expressions (counting them is error-prone)
 ```javascript
 // Correct
