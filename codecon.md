@@ -119,6 +119,7 @@ var err = 'x';
 try {
 	throw 'problem';
 }
+// Incorrect: 'err' has already been defined
 catch (err) {
 	// As expected, 'err' is 'problem', not 'x'
 }
