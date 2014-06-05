@@ -195,6 +195,51 @@ if (isAllowed = foo()) {
 	/* ... */
 }
 ```
+* Specify the value being tested first and the value it is being compared against second in comparisons
+```javascript
+// Correct
+if (color === 'red') {
+	/* ... */
+}
+
+// Incorrect
+if (red === 'color') {
+	/* ... */
+}
+```
+* Do not use the global value `NaN` with comparison operators: use the `isNaN` function
+* Use a consistent brace style
+* Always enclose bodies of conditional statements in braces
+* Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
+* Always use parentheses when invoking constructor functions
+```javascript
+// Correct
+var foo = new Foo();
+
+// Incorrect
+var foo = new Foo;
+```
+* Do not use nested ternary operators.
+* Pad infix operators (+, -, etc.) with spaces on either side
+* Do not commit code with `debugger` statements
+* Only use `label` to mark the start of loops or switches
+* Avoid stray semicolons (only one semicolon at the end of lines)
+* Avoid fallthrough behavior of switch statements
+* Do not create constructors that are used for side-effects
+* Do not create constructors that are simply wrappers/adapters
+* Do not invoke the global objects `Math` and `JSON` as functions (use their methods)
+* Do not commit unreachable code
+* Ensure that `return`, `throw`, and `case` are always followed by a space
+* Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
+* Do not use the `eval` function
+* Always pass a function reference to `setTimeout` and `setInterval` (string values use `eval` to create a function)
+* Define and adhere to a maximum line length
+* Eliminate trailing whitespace
+* Use consistent indentation
+* Use consistent whitespace
+* Do not use `__iterator__`
+* Do not use ES5 strict mode globally (it may break 3rd-party libraries, such as Dojo)
+
 * AJAX: keep it asynchronous (do not specify `true` for the `async` parameter to `XMLHttpRequest#open()`)
 * Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
 * Avoid repeated DOM access: maintain persistent references to DOM objects
