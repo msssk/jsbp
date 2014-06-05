@@ -95,6 +95,7 @@ var foo = new Foo;
 
 ### Avoiding Pitfalls and Improving Correctness
 
+* Avoid using global variables; pass references to local scopes as needed
 * Define variables and functions before using them (improves clarity; reduces pitfalls related to implicit globals and hoisting)
 * Declare all variables at the top of the scope and avoid implicit globals. Declaring variables at the top of the scope ensures that any assignment happens to the local reference.
 * Use strict comparison operators (`===` and `!==` instead of `==` and `!=`) since the behavior is easier to understand and remember, and in most well-designed code is the desirable behavior anyway. (The rules JavaScript follows for type coercion can be complicated and few programmers know them all.)
@@ -191,7 +192,6 @@ if (isAllowed = foo()) {
 * Avoid deeply nested functions (nesting beyond about 4 levels deep becomes difficult to understand and reason about)
 * Filter `for...in` statements with `hasOwnProperty` if you only want properties on the object itself, not properties on all objects in the prototype chain as well
 * Avoid using `with` (`with` blocks are error-prone and can easily lead to accidentally clobbering variables)
-* Avoid using global variables; pass references to local scopes as needed
 * Use feature detection instead of browser detection (feature detection is less complicated and future-proof)
 
 
