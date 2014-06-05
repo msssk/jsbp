@@ -251,8 +251,8 @@ var num = -.7;
 #### JavaScript
 
 * Do not use the `caller` and `callee` properties of `arguments` (they are deprecated and prevent some code optimizations from being performed by the JavaScript engine)
-* Do not declare functions within loops (bad for performance)
-* Do not declare variables within loops (bad for performance)
+* Do not declare functions within loops
+* Do not declare variables within loops
 * Do not delete object properties (can hinder code optimization; set to `null` instead)
 * AJAX: keep it asynchronous (do not specify `true` for the `async` parameter to `XMLHttpRequest#open()`)
 * Avoid unnecessary recalculation: maintain persistent references to calculated values
