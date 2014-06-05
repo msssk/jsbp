@@ -284,13 +284,11 @@ var num = -.7;
 
 ### Clean, Legible Coding
 
-* Keep source code free of unused variables (they introduce clutter and reduce clarity)
+* Keep source code free of unused variables
 * Do not commit unreachable code
 * Do not commit code with `debugger` statements
-* Do not create constructors that are used for side-effects
-* Do not create constructors that are simply wrappers/adapters
-
-
+* Do not create constructors that are used for side-effects (use functions to make it clear an action is being performed)
+* Do not create constructors that are simply wrappers/adapters (use regular functions rather than constructors to decorate, wrap, or adapt an object)
 
 
 ## Coding Conventions
