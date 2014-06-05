@@ -106,25 +106,6 @@ var regex = /foo {3}bar/;
 // Incorrect
 var regex = /foo   bar/;
 ```
-* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules.
-* Do not overwrite declared functions (leads to confusing code)
-```javascript
-var foo = function () { /* ... */ };
-// Incorrect: 'foo' is already defined!
-foo = function () { /* ... */ };
-```
-* Do not reuse variable names in the parameter list to a `catch` clause (in IE <9 the `catch` clause does not create its own scope)
-```javascript
-var err = 'x';
-try {
-	throw 'problem';
-}
-// Incorrect: 'err' has already been defined
-catch (err) {
-	// As expected, 'err' is 'problem', not 'x'
-}
-// Unexpected: 'err' is 'problem', not 'x'!
-```
 * Do not use trailing commas (behavior is inconsistent across browsers)
 ```javascript
 // Correct
@@ -146,6 +127,25 @@ var data = [
 	1,
 	2,
 ];
+```
+* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules.
+* Do not overwrite declared functions (leads to confusing code)
+```javascript
+var foo = function () { /* ... */ };
+// Incorrect: 'foo' is already defined!
+foo = function () { /* ... */ };
+```
+* Do not reuse variable names in the parameter list to a `catch` clause (in IE <9 the `catch` clause does not create its own scope)
+```javascript
+var err = 'x';
+try {
+	throw 'problem';
+}
+// Incorrect: 'err' has already been defined
+catch (err) {
+	// As expected, 'err' is 'problem', not 'x'
+}
+// Unexpected: 'err' is 'problem', not 'x'!
 ```
 * Do not assign a value to the exception parameter in a `catch` block
 ```javascript
