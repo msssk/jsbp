@@ -6,7 +6,21 @@ Adhering to best practices while developing applications leads to code that is m
 
 ### Syntax and Formatting
 
-* Do not unnecessarily quote property names
+* Use single quotes for strings (more convenient to type; don't require escaping double-quotes)
+* Use camel-casing for naming (e.g. `myMethod` for a function or method name, `MyClass` for a constructor name)
+* Start constructor names with a capital letter
+* Use a consistent brace style
+* Terminate lines with a single semicolon when appropriate; do not rely on Automatic Semicolon Insertion (ASI)
+* Avoid stray semicolons (only one semicolon at the end of lines)
+* Define and adhere to a maximum line length (120 is reasonable for many development environments)
+* Eliminate trailing whitespace
+* Use consistent indentation
+* Use consistent whitespace
+* Pad infix operators (+, -, etc.) with spaces on either side
+* Ensure that `return`, `throw`, and `case` are always followed by a space
+* Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
+* Always enclose bodies of conditional statements in braces
+* Only quote property names when necessary (if the property name contains special characters)
 ```javascript
 // Correct
 var data = {
@@ -23,7 +37,6 @@ var data = {
 ```
 * Do not use multi-line strings
 * Do not use octal escapes (deprecated in ES5; use Unicode or hex)
-* Use single quotes for strings (more convenient to type; don't require escaping double-quotes)
 * Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
 ```javascript
 // Correct
@@ -54,8 +67,6 @@ function () {
 	/* .... */
 }();
 ```
-* Use camel-casing for naming
-* Start constructor names with a capital letter
 * Use a consistent variable name as an alias for `this` (recommended: `self`). Aliasing `this` is useful when calling functions that lose context.
 * Do not reuse variable names as label names
 * Do not use trailing underscores in variable names
@@ -71,8 +82,6 @@ if (red === 'color') {
 	/* ... */
 }
 ```
-* Use a consistent brace style
-* Always enclose bodies of conditional statements in braces
 * Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
 * Always use parentheses when invoking constructor functions
 ```javascript
@@ -82,14 +91,6 @@ var foo = new Foo();
 // Incorrect
 var foo = new Foo;
 ```
-* Pad infix operators (+, -, etc.) with spaces on either side
-* Avoid stray semicolons (only one semicolon at the end of lines)
-* Ensure that `return`, `throw`, and `case` are always followed by a space
-* Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
-* Define and adhere to a maximum line length
-* Eliminate trailing whitespace
-* Use consistent indentation
-* Use consistent whitespace
 
 
 ### Avoiding Pitfalls and Improving Correctness
@@ -144,26 +145,27 @@ var data = [
 ```
 * Do not assign a value to the exception parameter in a `catch` block
 ```javascript
-// Incorrect
 try {
 	/* ... */
 }
 catch (error) {
+	// Incorrect: 'error' should be treated as read-only
 	error = 5;
 }
 ```
-* Do not overwrite native objects (any object provided by the runtime environment, e.g. 'Array', 'Math', etc.)
+* Do not overwrite native objects (any object provided by the runtime environment, e.g. 'Array', 'Object', 'Math', etc.)
+* Do not modify native objects (custom functionality should be provided in self-contained libraries)
 * Do not redeclare variables (can be confusing)
 * Do not shadow variables (can be confusing)
 ```javascript
 var foo = 5;
 function () {
-	// Incorrect: shadows 'foo' from outer scope!
+	// Incorrect: shadows 'foo' from outer scope
 	var foo = 2;
 }
 ```
 * Do not shadow restricted names (do not use 'undefined', 'arguments', 'eval', 'NaN', 'Infinity', etc. as variable names)
-* Define variables and functions before using them
+* Define variables and functions before using them (improves clarity; reduces pitfalls related to implicit globals and hoisting)
 * Do not perform assignment in conditional expressions (reduces clarity, can be error-prone)
 ```javascript
 // Correct
@@ -178,20 +180,22 @@ if (isAllowed = foo()) {
 	/* ... */
 }
 ```
-* Do not use the global value `NaN` with comparison operators: use the `isNaN` function
-* Do not use nested ternary operators.
+* Do not use the global value `NaN` with comparison operators: use the `isNaN` function (comparisons with `NaN` do not work)
+* Do not use nested ternary operators (creates potentially confusing code)
 * Only use `label` to mark the start of loops or switches
 * Avoid fallthrough behavior of switch statements
 * Do not use ES5 strict mode globally (it may break 3rd-party libraries, such as Dojo)
 * Do not invoke the global objects `Math` and `JSON` as functions (use their methods)
-* Avoid deeply nested functions
-* Filter `for...in` statements with `hasOwnProperty`
-* Do not modify native object prototypes (e.g. `Array`, `Object`)
+* Avoid deeply nested functions (nesting beyond about 4 levels deep becomes difficult to understand and reason about)
+* Filter `for...in` statements with `hasOwnProperty` if you only want properties on the object itself, not properties on all objects in the prototype chain as well
+* Avoid using `with` (`with` blocks are error-prone and can easily lead to accidentally clobbering variables)
+* Avoid using global variables; pass references to local scopes as needed
+* Use feature detection instead of browser detection (feature detection is less complicated and future-proof)
 
 
 ### Objects
 
-* New objects: use `{}` instead of `new Object()`
+* New objects: use `{}` instead of `new Object()` (provides consistent syntax and behavior)
 ```javascript
 // Correct
 var data = {};
@@ -202,7 +206,7 @@ var data = {
 // Incorrect:
 var data = new Object();
 ```
-* New arrays: use `[]` instead of `new Array()`
+* New arrays: use `[]` instead of `new Array()` (provides consistent syntax and behavior)
 ```javascript
 // Correct
 var data = [];
@@ -221,9 +225,6 @@ var data = {
 };
 ```
 * Do not use the non-standard `__proto__` property
-
-
-### Strings
 
 
 ### Numbers
@@ -245,45 +246,49 @@ var num = -.7;
 
 ### Performance
 
+#### JavaScript
+
 * Do not use the `caller` and `callee` properties of `arguments` (they are deprecated and prevent some code optimizations from being performed by the JavaScript engine)
 * Do not declare functions within loops (bad for performance)
 * Do not declare variables within loops (bad for performance)
 * Do not delete object properties (can hinder code optimization; set to `null` instead)
 * AJAX: keep it asynchronous (do not specify `true` for the `async` parameter to `XMLHttpRequest#open()`)
-* Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
-* Avoid repeated DOM access: maintain persistent references to DOM objects
-* Avoid unnecessary recalculation: maintain persisten references to calculated values
-* Optimize some loops
+* Avoid unnecessary recalculation: maintain persistent references to calculated values
+* Loops that have a lot of execution time should be hand-optimized (use `for` instead of array iteration methods like `forEach`)
 * Cache collection lengths (e.g. array.length, NodeList.length) when iterating
-* Minimize in-loop operations (e.g. variable declarations)
-* Minimize reflows and repaints
-* Perform CSS operations in batch when possible
-* Put script elements at bottom of body
-* Use `DocumentFragment` when it makes sense
-* Be specific with CSS queries
-* Use event delegation when it makes sense
-
-
-
-
-Pitfalls/Correctness?
-* Keep source code free of unused variables (they introduce clutter)
-* Do not commit unreachable code
-
-Performance?
 * Do not use the `eval` function
 * Always pass a function reference to `setTimeout` and `setInterval` (string values use `eval` to create a function)
 
-???
+#### Browser: DOM/CSS
+
+* Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
+* Avoid repeated DOM access: maintain persistent references to DOM objects when useful
+* Minimize reflows and repaints
+* Put script elements at the bottom of the body element
+* Use `DocumentFragment` when it makes sense
+* Use event delegation when it makes sense
+* Be specific with CSS queries, but only as specific as necessary
+```css
+/* If both match the same elements, the first selector is more performant: */
+.elementClass {}
+.containerClass .listClass .elementClass {}
+
+/* If both match the same elements, the first selector is less error-prone: */
+.containerClass .li {}
+.containerClass * {}
+```
+* Perform CSS operations in batch when possible
+
+
+### Clean, Legible Coding
+
+* Keep source code free of unused variables (they introduce clutter and reduce clarity)
+* Do not commit unreachable code
 * Do not commit code with `debugger` statements
 * Do not create constructors that are used for side-effects
 * Do not create constructors that are simply wrappers/adapters
-* Avoid using `with`
-* Use feature detection instead of browser detection
 
-Modularity?
-* Use local variables; minimize usage of globals
-* Loosely couple where it makes sense
+
 
 
 ## Coding Conventions
