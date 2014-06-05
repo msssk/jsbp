@@ -188,7 +188,6 @@ if (isAllowed = foo()) {
 * Only use `label` to mark the start of loops or switches
 * Avoid fallthrough behavior of switch statements
 * Do not use ES5 strict mode globally (it may break 3rd-party libraries, such as Dojo)
-* Do not invoke the global objects `Math` and `JSON` as functions (use their methods)
 * Avoid deeply nested functions (nesting beyond about 4 levels deep becomes difficult to understand and reason about)
 * Filter `for...in` statements with `hasOwnProperty` if you only want properties on the object itself, not properties on all objects in the prototype chain as well
 * Avoid using `with` (`with` blocks are error-prone and can easily lead to accidentally clobbering variables)
