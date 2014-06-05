@@ -2,36 +2,10 @@
 
 Adhering to best practices while developing applications leads to code that is more maintainable, extensible, and testable. Understanding the rationale behind each best practice enables the programmer to make good judgment calls in situations where best practices are not clearly defined, or when it may be appropriate to deviate from best practices.
 
-* New objects: use `{}` instead of `new Object()`
-```javascript
-// Correct
-var data = {};
-var data = {
-	prop1: 'value'
-};
+## Guidelines and Rules
 
-// Incorrect:
-var data = new Object();
-```
-* New arrays: use `[]` instead of `new Array()`
-```javascript
-// Correct
-var data = [];
-var data = [1, 2, 3];
+### Syntax and Formatting
 
-// Incorrect
-var data = new Array();
-var data = new Array(1, 2, 3);
-```
-* Avoid duplicate keys in object literals:
-```javascript
-var data = {
-	srcUrl: 'http://company.com',
-	// Valid JavaScript, but bad practice:
-	srcUrl: 'http://abc.company.com'
-};
-```
-* Do not use the non-standard `__proto__` property
 * Do not unnecessarily quote property names
 ```javascript
 // Correct
@@ -50,45 +24,6 @@ var data = {
 * Do not use multi-line strings
 * Do not use octal escapes (deprecated in ES5; use Unicode or hex)
 * Use single quotes for strings (more convenient to type; don't require escaping double-quotes)
-* Always include leading and trailing digits in decimal values
-```javascript
-// Correct
-var num = 0.5;
-var num = 2.0;
-var num = -0.7;
-
-// Incorrect
-var num = .5;
-var num = 2.;
-var num = -.7;
-```
-* Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
-* Do not use empty character classes in regular expressions
-```javascript
-// Correct
-/^abc[b-e]/.test(foo);
-
-// Incorrect
-/^abc[]/.test(foo);
-```
-* Don't use repeated spaces in regular expressions (counting them is error-prone)
-```javascript
-// Correct
-var regex = /foo {3}bar/;
-
-// Incorrect
-var regex = /foo   bar/;
-```
-* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules.
-* Do not use the `caller` and `callee` properties of `arguments` (they are deprecated and prevent some code optimizations from being performed by the JavaScript engine)
-* Do not overwrite declared functions (leads to confusing code)
-```javascript
-var foo = function () { /* ... */ };
-// Incorrect: 'foo' is already defined!
-foo = function () { /* ... */ };
-```
-* Do not declare functions within loops (bad for performance)
-* Do not declare variables within loops (bad for performance)
 * Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
 ```javascript
 // Correct
@@ -124,6 +59,56 @@ function () {
 * Use a consistent variable name as an alias for `this` (recommended: `self`). Aliasing `this` is useful when calling functions that lose context.
 * Do not reuse variable names as label names
 * Do not use trailing underscores in variable names
+* Specify the value being tested first and the value it is being compared against second in comparisons
+```javascript
+// Correct
+if (color === 'red') {
+	/* ... */
+}
+
+// Incorrect
+if (red === 'color') {
+	/* ... */
+}
+```
+* Use a consistent brace style
+* Always enclose bodies of conditional statements in braces
+* Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
+* Always use parentheses when invoking constructor functions
+```javascript
+// Correct
+var foo = new Foo();
+
+// Incorrect
+var foo = new Foo;
+```
+* Pad infix operators (+, -, etc.) with spaces on either side
+* Avoid stray semicolons (only one semicolon at the end of lines)
+* Ensure that `return`, `throw`, and `case` are always followed by a space
+* Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
+* Define and adhere to a maximum line length
+* Eliminate trailing whitespace
+* Use consistent indentation
+* Use consistent whitespace
+
+
+### Avoiding Pitfalls and Improving Correctness
+
+* Don't use repeated spaces in regular expressions (counting them is error-prone)
+```javascript
+// Correct
+var regex = /foo {3}bar/;
+
+// Incorrect
+var regex = /foo   bar/;
+```
+* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules.
+* Do not overwrite declared functions (leads to confusing code)
+```javascript
+var foo = function () { /* ... */ };
+// Incorrect: 'foo' is already defined!
+foo = function () { /* ... */ };
+```
 * Do not reuse variable names in the parameter list to a `catch` clause (in IE <9 the `catch` clause does not create its own scope)
 ```javascript
 var err = 'x';
@@ -157,7 +142,6 @@ var data = [
 	2,
 ];
 ```
-* Do not delete object properties (can hinder code optimization; set to `null` instead)
 * Do not assign a value to the exception parameter in a `catch` block
 ```javascript
 // Incorrect
@@ -179,7 +163,6 @@ function () {
 }
 ```
 * Do not shadow restricted names (do not use 'undefined', 'arguments', 'eval', 'NaN', 'Infinity', etc. as variable names)
-* Keep source code free of unused variables (they introduce clutter)
 * Define variables and functions before using them
 * Do not perform assignment in conditional expressions (reduces clarity, can be error-prone)
 ```javascript
@@ -195,56 +178,81 @@ if (isAllowed = foo()) {
 	/* ... */
 }
 ```
-* Specify the value being tested first and the value it is being compared against second in comparisons
-```javascript
-// Correct
-if (color === 'red') {
-	/* ... */
-}
-
-// Incorrect
-if (red === 'color') {
-	/* ... */
-}
-```
 * Do not use the global value `NaN` with comparison operators: use the `isNaN` function
-* Use a consistent brace style
-* Always enclose bodies of conditional statements in braces
-* Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
-* Always use parentheses when invoking constructor functions
+* Do not use nested ternary operators.
+* Only use `label` to mark the start of loops or switches
+* Avoid fallthrough behavior of switch statements
+* Do not use ES5 strict mode globally (it may break 3rd-party libraries, such as Dojo)
+* Do not invoke the global objects `Math` and `JSON` as functions (use their methods)
+* Avoid deeply nested functions
+* Filter `for...in` statements with `hasOwnProperty`
+* Do not modify native object prototypes (e.g. `Array`, `Object`)
+
+
+### Objects
+
+* New objects: use `{}` instead of `new Object()`
 ```javascript
 // Correct
-var foo = new Foo();
+var data = {};
+var data = {
+	prop1: 'value'
+};
+
+// Incorrect:
+var data = new Object();
+```
+* New arrays: use `[]` instead of `new Array()`
+```javascript
+// Correct
+var data = [];
+var data = [1, 2, 3];
 
 // Incorrect
-var foo = new Foo;
+var data = new Array();
+var data = new Array(1, 2, 3);
 ```
-* Do not use nested ternary operators.
-* Pad infix operators (+, -, etc.) with spaces on either side
-* Do not commit code with `debugger` statements
-* Only use `label` to mark the start of loops or switches
-* Avoid stray semicolons (only one semicolon at the end of lines)
-* Avoid fallthrough behavior of switch statements
-* Do not create constructors that are used for side-effects
-* Do not create constructors that are simply wrappers/adapters
-* Do not invoke the global objects `Math` and `JSON` as functions (use their methods)
-* Do not commit unreachable code
-* Ensure that `return`, `throw`, and `case` are always followed by a space
-* Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
-* Do not use the `eval` function
-* Always pass a function reference to `setTimeout` and `setInterval` (string values use `eval` to create a function)
-* Define and adhere to a maximum line length
-* Eliminate trailing whitespace
-* Use consistent indentation
-* Use consistent whitespace
-* Do not use `__iterator__`
-* Do not use ES5 strict mode globally (it may break 3rd-party libraries, such as Dojo)
+* Avoid duplicate keys in object literals:
+```javascript
+var data = {
+	srcUrl: 'http://company.com',
+	// Valid JavaScript, but bad practice:
+	srcUrl: 'http://abc.company.com'
+};
+```
+* Do not use the non-standard `__proto__` property
 
+
+### Strings
+
+
+### Numbers
+
+* Always include leading and trailing digits in decimal values
+```javascript
+// Correct
+var num = 0.5;
+var num = 2.0;
+var num = -0.7;
+
+// Incorrect
+var num = .5;
+var num = 2.;
+var num = -.7;
+```
+* Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
+
+
+### Performance
+
+* Do not use the `caller` and `callee` properties of `arguments` (they are deprecated and prevent some code optimizations from being performed by the JavaScript engine)
+* Do not declare functions within loops (bad for performance)
+* Do not declare variables within loops (bad for performance)
+* Do not delete object properties (can hinder code optimization; set to `null` instead)
 * AJAX: keep it asynchronous (do not specify `true` for the `async` parameter to `XMLHttpRequest#open()`)
 * Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
 * Avoid repeated DOM access: maintain persistent references to DOM objects
 * Avoid unnecessary recalculation: maintain persisten references to calculated values
-* Avoid deeply nested functions
 * Optimize some loops
 * Cache collection lengths (e.g. array.length, NodeList.length) when iterating
 * Minimize in-loop operations (e.g. variable declarations)
@@ -255,18 +263,27 @@ var foo = new Foo;
 * Be specific with CSS queries
 * Use event delegation when it makes sense
 
-modularity
 
+
+
+Pitfalls/Correctness?
+* Keep source code free of unused variables (they introduce clutter)
+* Do not commit unreachable code
+
+Performance?
+* Do not use the `eval` function
+* Always pass a function reference to `setTimeout` and `setInterval` (string values use `eval` to create a function)
+
+???
+* Do not commit code with `debugger` statements
+* Do not create constructors that are used for side-effects
+* Do not create constructors that are simply wrappers/adapters
+* Avoid using `with`
+* Use feature detection instead of browser detection
+
+Modularity?
 * Use local variables; minimize usage of globals
 * Loosely couple where it makes sense
-
-misc
-
-* Filter `for...in` statements with `hasOwnProperty`
-* Use parentheses for IIFEs
-* Avoid using `with`
-* Do not modify native object prototypes (e.g. `Array`, `Object`)
-* Use feature detection instead of browser detection
 
 
 ## Coding Conventions
