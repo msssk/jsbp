@@ -128,7 +128,7 @@ var data = [
 	2,
 ];
 ```
-* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules.
+* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules. JSHint can analyze the cyclomatic complexity of your code.
 * Do not overwrite declared functions (leads to confusing code)
 ```javascript
 var foo = function () { /* ... */ };
