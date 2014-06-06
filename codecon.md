@@ -265,7 +265,13 @@ var num = -.7;
 
 * Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
 * Avoid repeated DOM access: maintain persistent references to DOM objects when useful
+* Minimize the number of DOM nodes: fewer nodes are faster to render
 * Minimize reflows and repaints
+	* Avoid inline styles when possible: use CSS classes to vary between different layouts (each individual inline style assignment can trigger DOM updates; a group of style changes can be applied in a single DOM update by changing the CSS class of an element)
+	* Change CSS classes as low in the DOM tree as possible. To change the display of an element, prefer changing the CSS class of the element directly instead of changing the CSS class of a parent element.
+	* Minimize the number of CSS rules and remove unused rules
+	* Remove animated elements from the document flow. When an element is animated it may trigger reflow of surrounding elements. If the element's position is independent of surrounding elements, use absolute or fixed positioning to remove the element from the document flow so that it can more efficiently be animated.
+	* Avoid HTML tables for layout (or set `table-layout` to `fixed`). The layout of cells in non-fixed tables may be affected by cells lower down in the table, so the rendering process is slower.
 * Put script elements at the bottom of the body element
 * Use `DocumentFragment` when it makes sense
 * Use event delegation when it makes sense
@@ -279,7 +285,6 @@ var num = -.7;
 .containerClass .li {}
 .containerClass * {}
 ```
-* Perform CSS operations in batch when possible
 
 
 ### Clean, Legible Coding
@@ -387,4 +392,39 @@ By following these principles you can create robust and reusable code. Reuse you
 ## Performance
 
 Premature performance optimization can hinder readability, correctness, and maintainability. However, in JavaScript there are some approaches that are preferable to similar approaches primarily for performance reasons, and do not introduce unnecessary complexity.
+
+### Loop optimization
+
+In general you should write code that is most convenient and legible. Depending on your target environment, `Array#forEach` may be a suitable default, or a similar method from a library, such as `dojo/_base/array#forEach`. In "hot" loops which are executed frequently or on large amounts of data it may be prudent to optimize the loop. Optimization varies across environments, so you should pick your worst-performing target environment and optimize and test there first. There are a few primary and simple optimizations that improve loop performance in most cases:
+
+* Minimize the work done within the loop body: anything that does not need to be within the loop should be moved outside, such as variable and function declarations
+* Use a `for` or `while` loop instead of `forEach`
+* Cache the `length` value of the array (or loop in reverse)
+```javascript
+var data = [ /* ... */ ];
+// Cache the length value
+var length = data.length;
+var i;
+
+for (i = 0; i < length; i++) {
+	/* ... */
+}
+
+// Alternative: loop in reverse
+for (i = (data.length - 1); i >= 0; i--) {
+	/* ... */
+}
+```
+
+### Script loading
+
+In browsers that do not support the `async` attribute on `script` elements the loading of `script` elements will block the page rendering. If the scripts do not need to be processed prior to rendering the DOM (and in most cases, it is quite the opposite - scripts depend on the DOM being rendered first) the `script` tags should be placed at the bottom of the `body` element. This both enables the page to begin displaying useful information to the user faster and ensure that the DOM is ready by the time the scripts are loaded.
+
+### DOM modifications, repaint, and reflow
+
+Accessing the browser DOM from JavaScript is a relatively slow process and should be avoided when possible. DOM updates are of course an integral part of web applications, but when doing so one should consider the impact and strive to minimize repaints (re-rendering portions of the UI) and reflow (recalculating the position of elements within the document flow).
+
+
+
+
 
