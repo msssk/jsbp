@@ -33,12 +33,40 @@ var data = [
 // Incorrect
 var data = {
 	foo: 1,
-	bar: 2,
+	bar: 2, // <-- trailing comma
 };
 var data = [
 	1,
-	2,
+	2, // <-- trailing comma
 ];
+```
+* Always place an opening brace on the same line as the associated statement
+```javascript
+// Correct
+if (condition) {
+	/* ... */
+}
+
+return {
+	get: function () {
+		/* ... */
+	}
+};
+
+// Incorrect
+if (condition)
+{
+	/* ... */
+}
+
+// In this case the return statement will not work as expected
+// The returned value will be 'undefined' due to Automatic Semicolon Insertion
+return
+{
+	get: function () {
+		/* ... */
+	}
+};
 ```
 * Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules. JSHint can analyze the cyclomatic complexity of your code.
 * Do not overwrite declared functions (leads to confusing code)
@@ -103,7 +131,7 @@ if (isAllowed = foo()) {
 * Avoid deeply nested functions (nesting beyond about 4 levels deep becomes difficult to understand and reason about)
 * Filter `for...in` statements with `hasOwnProperty` if you only want properties on the object itself, not properties on all objects in the prototype chain as well
 * Avoid using `with` (`with` blocks are error-prone and can easily lead to accidentally clobbering variables)
-* Use feature detection instead of browser detection (feature detection is less complicated and future-proof)
+* Use feature detection instead of browser detection (feature detection is more reliable and future-proof)
 
 
 ### Objects
@@ -212,7 +240,6 @@ var num = -.7;
 * Use single quotes for strings (more convenient to type; don't require escaping double-quotes)
 * Use camel-casing for naming (e.g. `myMethod` for a function or method name, `MyClass` for a constructor name)
 * Start constructor names with a capital letter
-* Use a consistent brace style
 * Terminate lines with a single semicolon when appropriate; do not rely on Automatic Semicolon Insertion (ASI)
 * Avoid stray semicolons (only one semicolon at the end of lines)
 * Define and adhere to a maximum line length (120 is reasonable for many development environments)
