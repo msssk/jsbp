@@ -4,6 +4,8 @@ Adhering to best practices while developing applications leads to code that is m
 
 ## Guidelines and Rules
 
+Some of the rules below include example code with some examples labelled 'Correct' and others labelled 'Incorrect'. In most cases the 'Incorrect' examples are valid JavaScript, but should be considered poor practice as they are error-prone or bad for readability. A linting tool should be used and configured to raise warnings if the incorrect forms are encountered.
+
 ### Avoiding Pitfalls and Improving Correctness
 
 * Avoid using global variables; pass references to local scopes as needed
