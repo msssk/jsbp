@@ -4,95 +4,6 @@ Adhering to best practices while developing applications leads to code that is m
 
 ## Guidelines and Rules
 
-### Syntax and Formatting
-
-* Use single quotes for strings (more convenient to type; don't require escaping double-quotes)
-* Use camel-casing for naming (e.g. `myMethod` for a function or method name, `MyClass` for a constructor name)
-* Start constructor names with a capital letter
-* Use a consistent brace style
-* Terminate lines with a single semicolon when appropriate; do not rely on Automatic Semicolon Insertion (ASI)
-* Avoid stray semicolons (only one semicolon at the end of lines)
-* Define and adhere to a maximum line length (120 is reasonable for many development environments)
-* Eliminate trailing whitespace
-* Use consistent indentation
-* Use consistent whitespace between keywords, functions, and operators
-* Pad infix operators (+, -, etc.) with spaces on either side
-* Ensure that `return`, `throw`, and `case` are always followed by a space
-* Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
-* Always enclose bodies of conditional statements in braces
-* Only quote property names when necessary (if the property name contains special characters)
-```javascript
-// Correct
-var data = {
-	prop1: 'value',
-	prop2: 5,
-	'special-character-key': 'value'
-};
-
-// Incorrect
-var data = {
-	'prop1': 'value',
-	'prop2': 5
-};
-```
-* Do not use multi-line strings
-* Do not use octal escapes (deprecated in ES5; use Unicode or hex)
-* Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
-```javascript
-// Correct
-foo();
-
-// Incorrect
-foo ();
-foo
-();
-```
-* Do not wrap function calls with unnecessary parentheses
-```javascript
-// Correct
-foo();
-
-// Incorrect
-(foo());
-```
-* Wrap IIFEs (Immediately Invoked Function Expressions) with parentheses
-```javascript
-// Correct
-(function () {
-	/* .... */
-}());
-
-// Incorrect
-function () {
-	/* .... */
-}();
-```
-* Use a consistent variable name as an alias for `this` (recommended: `self`). Aliasing `this` is useful when calling functions that lose context.
-* Do not reuse variable names as label names
-* Do not use trailing underscores in variable names
-* Specify the value being tested first and the value it is being compared against second in comparisons
-```javascript
-// Correct
-if (color === 'red') {
-	/* ... */
-}
-
-// Incorrect
-if (red === 'color') {
-	/* ... */
-}
-```
-* Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
-* Always use parentheses when invoking constructor functions
-```javascript
-// Correct
-var foo = new Foo();
-
-// Incorrect
-var foo = new Foo;
-```
-
-
 ### Avoiding Pitfalls and Improving Correctness
 
 * Avoid using global variables; pass references to local scopes as needed
@@ -294,6 +205,95 @@ var num = -.7;
 * Do not commit code with `debugger` statements
 * Do not create constructors that are used for side-effects (use functions to make it clear an action is being performed)
 * Do not create constructors that are simply wrappers/adapters (use regular functions rather than constructors to decorate, wrap, or adapt an object)
+
+
+### Syntax and Formatting
+
+* Use single quotes for strings (more convenient to type; don't require escaping double-quotes)
+* Use camel-casing for naming (e.g. `myMethod` for a function or method name, `MyClass` for a constructor name)
+* Start constructor names with a capital letter
+* Use a consistent brace style
+* Terminate lines with a single semicolon when appropriate; do not rely on Automatic Semicolon Insertion (ASI)
+* Avoid stray semicolons (only one semicolon at the end of lines)
+* Define and adhere to a maximum line length (120 is reasonable for many development environments)
+* Eliminate trailing whitespace
+* Use consistent indentation
+* Use consistent whitespace between keywords, functions, and operators
+* Pad infix operators (+, -, etc.) with spaces on either side
+* Ensure that `return`, `throw`, and `case` are always followed by a space
+* Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
+* Always enclose bodies of conditional statements in braces
+* Only quote property names when necessary (if the property name contains special characters)
+```javascript
+// Correct
+var data = {
+	prop1: 'value',
+	prop2: 5,
+	'special-character-key': 'value'
+};
+
+// Incorrect
+var data = {
+	'prop1': 'value',
+	'prop2': 5
+};
+```
+* Do not use multi-line strings
+* Do not use octal escapes (deprecated in ES5; use Unicode or hex)
+* Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
+```javascript
+// Correct
+foo();
+
+// Incorrect
+foo ();
+foo
+();
+```
+* Do not wrap function calls with unnecessary parentheses
+```javascript
+// Correct
+foo();
+
+// Incorrect
+(foo());
+```
+* Wrap IIFEs (Immediately Invoked Function Expressions) with parentheses
+```javascript
+// Correct
+(function () {
+	/* .... */
+}());
+
+// Incorrect
+function () {
+	/* .... */
+}();
+```
+* Use a consistent variable name as an alias for `this` (recommended: `self`). Aliasing `this` is useful when calling functions that lose context.
+* Do not reuse variable names as label names
+* Do not use trailing underscores in variable names
+* Specify the value being tested first and the value it is being compared against second in comparisons
+```javascript
+// Correct
+if (color === 'red') {
+	/* ... */
+}
+
+// Incorrect
+if (red === 'color') {
+	/* ... */
+}
+```
+* Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
+* Always use parentheses when invoking constructor functions
+```javascript
+// Correct
+var foo = new Foo();
+
+// Incorrect
+var foo = new Foo;
+```
 
 
 ## Coding Conventions
