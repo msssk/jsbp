@@ -63,7 +63,8 @@ if (condition)
 // The returned value will be 'undefined' due to Automatic Semicolon Insertion
 return
 {
-	get: function () {
+	get: function ()
+	{
 		/* ... */
 	}
 };
@@ -122,6 +123,22 @@ var isAllowed;
 if (isAllowed = foo()) {
 	/* ... */
 }
+```
+* Do not use multi-line strings (confusing (newline is not part of string); inconsistent browser support; poor editor support for indentation)
+```javascript
+// Correct
+var myString = 'a multi line string' +
+	' using the concatenation operator' +
+	' to avoid excessive line length';
+
+var myString = 'a multi line string\n' +
+	'with escaped newlines embedded\n' +
+	'in the string';
+
+// Incorrect
+var myString = 'a multi line\
+	string can be created\
+	with backslashes';
 ```
 * Do not use the global value `NaN` with comparison operators: use the `isNaN` function (comparisons with `NaN` do not work)
 * Do not use nested ternary operators (creates potentially confusing code)
@@ -265,7 +282,6 @@ var data = {
 	'prop2': 5
 };
 ```
-* Do not use multi-line strings
 * Do not use octal escapes (deprecated in ES5; use Unicode or hex)
 * Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
 ```javascript
