@@ -233,6 +233,21 @@ var data = {
 * Do not commit unreachable code
 * Do not commit code with `debugger` statements
 * Do not create constructors that are used for side-effects (use functions to make it clear an action is being performed)
+```javascript
+// Correct
+var myWidget = new MyWidget(document.getElementById('myWidget'));
+
+// Use functions to perform actions with side-effects
+// where no reference to a new object is required
+function createWidget(referenceNode) {
+	/* ... */
+}
+
+createWidget(document.getElementById('myWidget'));
+
+// Incorrect
+new MyWidget(document.getElementById('myWidget'));
+```
 * Do not create constructors that are simply wrappers/adapters (use regular functions rather than constructors to decorate, wrap, or adapt an object)
 
 
@@ -468,7 +483,7 @@ The provided guidelines help to speed up the rendering process and minimize repa
 
 ### Event delegation
 
-The simplest and most common approach to handling DOM events is to register a handler with the element that will emit events. However, as the number of elements grows, the number of handlers to register (and unregister!) grows as well, which can negatively impact performance. In the case of lists or grids, where a large number of homogenous (or similar) child elements can all be handled by the same function event delegation should be used. The handler function is registered with the parent element, which allows a single handler to be registered and handle events for any number of child elements. Another benefit is that the handler will be called for dynamically added child elements as well. Event delegation with `dojo/on` is discussed in the [reference guide](http://dojotoolkit.org/reference-guide/1.9/dojo/on.html#event-delegation).
+The simplest and most common approach to handling DOM events is to register a handler with the element that will emit events. However, as the number of elements grows, the number of handlers to register (and unregister!) grows as well, which can negatively impact performance. In the case of lists or grids, where a large number of homogenous (or similar) child elements can all be handled by the same function event delegation should be used. The handler function is registered with the parent element, which allows a single handler to be registered and handle events for any number of child elements. Another benefit is that the handler will be called for dynamically added child elements as well. Event delegation with `dojo/on` is discussed in the [reference guide](http://dojotoolkit.org/reference-guide/dojo/on.html#event-delegation).
 
 
 
