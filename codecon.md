@@ -424,7 +424,4 @@ In browsers that do not support the `async` attribute on `script` elements the l
 
 Accessing the browser DOM from JavaScript is a relatively slow process and should be avoided when possible. DOM updates are of course an integral part of web applications, but when doing so one should consider the impact and strive to minimize repaints (re-rendering portions of the UI) and reflow (recalculating the position of elements within the document flow).
 
-
-
-
-
+The provided guidelines help to speed up the rendering process and minimize repaints and reflows.
