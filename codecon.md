@@ -143,6 +143,7 @@ var myString = 'a multi line\
 	with backslashes';
 ```
 * Do not use the global value `NaN` with comparison operators: use the `isNaN` function (comparisons with `NaN` do not work)
+* Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
 * Do not use nested ternary operators (creates potentially confusing code)
 * Only use `label` to mark the start of loops or switches
 * Avoid fallthrough behavior of switch statements
@@ -187,42 +188,23 @@ var data = {
 * Do not use the non-standard `__proto__` property
 
 
-### Numbers
-
-* Always include leading and trailing digits in decimal values
-```javascript
-// Correct
-var num = 0.5;
-var num = 2.0;
-var num = -0.7;
-
-// Incorrect
-var num = .5;
-var num = 2.;
-var num = -.7;
-```
-* Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
-
-
 ### Performance
 
 #### JavaScript
 
 * Do not use the `caller` and `callee` properties of `arguments` (they are deprecated and prevent some code optimizations from being performed by the JavaScript engine)
-* Do not declare functions within loops
-* Do not declare variables within loops
-* Do not delete object properties (can hinder code optimization; set to `null` instead)
-* AJAX: keep it asynchronous (do not specify `true` for the `async` parameter to `XMLHttpRequest#open()`)
+* Do not delete object properties (can hinder code optimization; set to `undefined` instead)
+* AJAX: keep it asynchronous (do not specify `false` for the `async` parameter to `XMLHttpRequest#open()`)
 * Avoid unnecessary recalculation: maintain persistent references to calculated values
 * Loops that have a lot of execution time should be hand-optimized (use `for` instead of array iteration methods like `forEach`)
 * Cache collection lengths (e.g. array.length, NodeList.length) when iterating
 * Do not use the `eval` function
 * Always pass a function reference to `setTimeout` and `setInterval` (string values use `eval` to create a function)
 
-#### Browser: DOM/CSS
+#### Web Browsers - DOM and CSS
 
 * Minimize DOM access: reference data in JavaScript variables when possible (do not use the DOM as a data store)
-* Avoid repeated DOM access: maintain persistent references to DOM objects when useful
+* Avoid repeated DOM queries: maintain persistent references to DOM objects and query results when useful
 * Minimize the number of DOM nodes: fewer nodes are faster to render
 * Minimize reflows and repaints
 	* Avoid inline styles when possible: use CSS classes to vary between different layouts (each individual inline style assignment can trigger DOM updates; a group of style changes can be applied in a single DOM update by changing the CSS class of an element)
@@ -230,7 +212,7 @@ var num = -.7;
 	* Minimize the number of CSS rules and remove unused rules
 	* Remove animated elements from the document flow. When an element is animated it may trigger reflow of surrounding elements. If the element's position is independent of surrounding elements, use absolute or fixed positioning to remove the element from the document flow so that it can more efficiently be animated.
 	* Avoid HTML tables for layout (or set `table-layout` to `fixed`). The layout of cells in non-fixed tables may be affected by cells lower down in the table, so the rendering process is slower.
-* Put script elements at the bottom of the body element
+* Put script elements at the bottom of the body element to prevent blocking rendering of the HTML
 * Use `DocumentFragment` when it makes sense
 * Use event delegation when it makes sense
 * Be specific with CSS queries, but only as specific as necessary
@@ -326,11 +308,24 @@ if (color === 'red') {
 }
 
 // Incorrect
-if (red === 'color') {
+if ('red' === color) {
 	/* ... */
 }
 ```
 * Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
+* Always include leading and trailing digits in decimal values
+```javascript
+// Correct
+var num = 0.5;
+var num = 2.0;
+var num = -0.7;
+
+// Incorrect
+var num = .5;
+var num = 2.;
+var num = -.7;
+```
+
 * Always use parentheses when invoking constructor functions
 ```javascript
 // Correct
@@ -470,3 +465,15 @@ In browsers that do not support the `async` attribute on `script` elements the l
 Accessing the browser DOM from JavaScript is a relatively slow process and should be avoided when possible. DOM updates are of course an integral part of web applications, but when doing so one should consider the impact and strive to minimize repaints (re-rendering portions of the UI) and reflow (recalculating the position of elements within the document flow).
 
 The provided guidelines help to speed up the rendering process and minimize repaints and reflows.
+
+### Event delegation
+
+The simplest and most common approach to handling DOM events is to register a handler with the element that will emit events. However, as the number of elements grows, the number of handlers to register (and unregister!) grows as well, which can negatively impact performance. In the case of lists or grids, where a large number of homogenous (or similar) child elements can all be handled by the same function event delegation should be used. The handler function is registered with the parent element, which allows a single handler to be registered and handle events for any number of child elements. Another benefit is that the handler will be called for dynamically added child elements as well. Event delegation with `dojo/on` is discussed in the [reference guide](http://dojotoolkit.org/reference-guide/1.9/dojo/on.html#event-delegation).
+
+
+
+
+
+
+
+
