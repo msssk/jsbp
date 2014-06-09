@@ -232,23 +232,15 @@ var data = {
 * Keep source code free of unused variables
 * Do not commit unreachable code
 * Do not commit code with `debugger` statements
-* Do not create constructors that are used for side-effects (use functions to make it clear an action is being performed)
-```javascript
-// Correct
-var myWidget = new MyWidget(document.getElementById('myWidget'));
-
-// Use functions to perform actions with side-effects
-// where no reference to a new object is required
-function createWidget(referenceNode) {
-	/* ... */
-}
-
-createWidget(document.getElementById('myWidget'));
-
-// Incorrect
-new MyWidget(document.getElementById('myWidget'));
-```
 * Do not create constructors that are simply wrappers/adapters (use regular functions rather than constructors to decorate, wrap, or adapt an object)
+```javascript
+// This is correct if 'Draggable' is a constructor that creates and returns a new object
+var draggableWidget = new Draggable(myWidget);
+
+// If 'Draggable' just augments an object
+// it should be implemented as a function
+makeDraggable(myWidget);
+```
 
 
 ### Syntax and Formatting
