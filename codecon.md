@@ -473,7 +473,7 @@ for (i = (data.length - 1); i >= 0; i--) {
 
 ### Script loading
 
-In browsers that do not support the `async` attribute on `script` elements the loading of `script` elements will block the page rendering. If the scripts do not need to be processed prior to rendering the DOM (and in most cases, it is quite the opposite - scripts depend on the DOM being rendered first) the `script` tags should be placed at the bottom of the `body` element. This both enables the page to begin displaying useful information to the user faster and ensure that the DOM is ready by the time the scripts are loaded.
+In browsers that do not support the `async` attribute ([compatibility table](http://caniuse.com/#feat=script-async)) on `script` elements the loading of `script` elements will block parallel downloads and delay the page rendering until the script has loaded and executed. If the scripts do not need to be processed prior to rendering the DOM (and in most cases, it is quite the opposite - scripts depend on the DOM being rendered first) the `script` tags should be placed at the bottom of the `body` element. This both enables the page to begin displaying useful information to the user faster and ensure that the DOM is ready by the time the scripts are loaded. For older browsers that do not support `async`, [`defer`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-defer) functions similarly ([compatibility table](http://caniuse.com/#feat=script-defer)). If you must support browsers that do not support `async`, placing the `script` elements at the bottom of the body is more reliable than using `defer`.
 
 ### DOM modifications, repaint, and reflow
 
@@ -484,11 +484,3 @@ The provided guidelines help to speed up the rendering process and minimize repa
 ### Event delegation
 
 The simplest and most common approach to handling DOM events is to register a handler with the element that will emit events. However, as the number of elements grows, the number of handlers to register (and unregister!) grows as well, which can negatively impact performance. In the case of lists or grids, where a large number of homogenous (or similar) child elements can all be handled by the same function event delegation should be used. The handler function is registered with the parent element, which allows a single handler to be registered and handle events for any number of child elements. Another benefit is that the handler will be called for dynamically added child elements as well. Event delegation with `dojo/on` is discussed in the [reference guide](http://dojotoolkit.org/reference-guide/dojo/on.html#event-delegation).
-
-
-
-
-
-
-
-
