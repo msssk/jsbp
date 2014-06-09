@@ -273,7 +273,7 @@ var data = {
 	'prop2': 5
 };
 ```
-* Do not use octal escapes (e.g. '\251'): they are deprecated in ES5; use Unicode ('\uXXX') or hex ('\xXX')
+* Do not use octal escapes (e.g. '\251') in JavaScript strings: they are deprecated in ES5; use Unicode ('\uXXX') or hex ('\xXX')
 * Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
 ```javascript
 // Correct
