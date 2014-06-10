@@ -142,7 +142,7 @@ var myString = 'a multi line\
 	string can be created\
 	with backslashes';
 ```
-* Do not use the global value `NaN` with comparison operators: use the `isNaN` function (comparisons with `NaN` do not work)
+* Do not use the global value `NaN` with comparison operators: use the `isNaN` function (comparisons with `NaN` always evaluate to false)
 * Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
 * Do not use nested ternary operators (creates potentially confusing code)
 * Only use `label` to mark the start of loops or switches
