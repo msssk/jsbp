@@ -145,7 +145,6 @@ var myString = 'a multi line\
 * Do not use the global value `NaN` with comparison operators: use the `isNaN` function (comparisons with `NaN` always evaluate to false)
 * Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
 * Do not use nested ternary operators (creates potentially confusing code)
-* Only use `label` to mark the start of loops or switches
 * Avoid fallthrough behavior of switch statements
 * Do not use ES5 strict mode globally (it may break 3rd-party libraries, such as Dojo)
 * Avoid deeply nested functions (nesting beyond about 4 levels deep becomes difficult to understand and reason about)
@@ -213,17 +212,17 @@ var data = {
 	* Remove animated elements from the document flow. When an element is animated it may trigger reflow of surrounding elements. If the element's position is independent of surrounding elements, use absolute or fixed positioning to remove the element from the document flow so that it can more efficiently be animated.
 	* Avoid HTML tables for layout (or set `table-layout` to `fixed`). The layout of cells in non-fixed tables may be affected by cells lower down in the table, so the rendering process is slower.
 * Put script elements at the bottom of the body element to prevent blocking rendering of the HTML
-* Use `DocumentFragment` when it makes sense
+* Use [`DocumentFragment`](https://developer.mozilla.org/en-US/docs/Web/API/document.createDocumentFragment) when it makes sense
 * Use event delegation when it makes sense
-* Be specific with CSS selectors, but only as specific as necessary
+* Be specific with CSS selectors, but only as specific as necessary. Besides being less performant, overly specific selectors hinder maintenance and customization.
 ```css
-/* If both match the same elements, the first selector is more performant: */
+/* If both match the same elements, prefer the first one: */
 .elementClass {}
 .containerClass .listClass .elementClass {}
 
-/* If both match the same elements, the first selector is less error-prone: */
-.containerClass .li {}
-.containerClass * {}
+/* If both match the same elements, prefer the first one: */
+.containerClass li {}
+.containerClass ul.widgetClass li {}
 ```
 
 
@@ -330,7 +329,6 @@ MyWidgetConstructor.prototype = {
 	}
 };
 ```
-* Do not reuse variable names as label names
 * Do not use trailing underscores in variable names
 * Specify the value being tested first and the value it is being compared against second in comparisons
 ```javascript
@@ -344,7 +342,7 @@ if ('red' === color) {
 	/* ... */
 }
 ```
-* Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name is calculated at run-time.
+* Prefer dot notation when possible. If you know the name of a property, use dot notation to access it. Only use bracket notation when the property name contains special characters or is calculated at run-time.
 * Always include leading and trailing digits in decimal values
 ```javascript
 // Correct
@@ -482,8 +480,15 @@ for (i = 0; i < length; i++) {
 	/* ... */
 }
 
-// Alternative: loop in reverse
-for (i = (data.length - 1); i >= 0; i--) {
+// For the fastest looping, simplify the loop condition:
+var i;
+for (i = data.length; i--;) {
+	/* ... */
+}
+
+// similar approach with 'while':
+var i = data.length;
+while (i--) {
 	/* ... */
 }
 ```
