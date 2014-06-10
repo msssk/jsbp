@@ -41,7 +41,7 @@ var data = [
 	1,
 	2, // <-- trailing comma
 ];
-```
+```d
 * Always place an opening brace on the same line as the associated statement
 ```javascript
 // Correct
@@ -232,6 +232,7 @@ var data = {
 * Keep source code free of unused variables
 * Do not commit unreachable code
 * Do not commit code with `debugger` statements
+* Do not create constructors that are used for side-effects (use functions to make it clear an action is being performed)
 * Do not create constructors that are simply wrappers/adapters (use regular functions rather than constructors to decorate, wrap, or adapt an object)
 ```javascript
 // This is correct if 'Draggable' is a constructor that creates and returns a new object
