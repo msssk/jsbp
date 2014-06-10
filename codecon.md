@@ -213,7 +213,7 @@ var data = {
 	* Avoid HTML tables for layout (or set `table-layout` to `fixed`). The layout of cells in non-fixed tables may be affected by cells lower down in the table, so the rendering process is slower.
 * Put script elements at the bottom of the body element to prevent blocking rendering of the HTML
 * Use [`DocumentFragment`](https://developer.mozilla.org/en-US/docs/Web/API/document.createDocumentFragment) when it makes sense
-* Use event delegation when it makes sense
+* Use [event delegation](http://davidwalsh.name/event-delegate) when it makes sense
 * Be specific with CSS selectors, but only as specific as necessary. Besides being less performant, overly specific selectors hinder maintenance and customization.
 ```css
 /* If both match the same elements, prefer the first one: */
