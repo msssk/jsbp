@@ -318,6 +318,9 @@ MyWidgetConstructor.prototype = {
 		];
 
 		people.forEach(function (person) {
+			// The anonymous function passed to 'forEach' has global
+			// context: `this` will be the global object ('window')
+			// Using the 'self' alias we can access the '_formatName' method
 			self._formatName(person);
 		});
 	},
