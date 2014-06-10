@@ -126,7 +126,7 @@ if (isAllowed = foo()) {
 	/* ... */
 }
 ```
-* Do not use multi-line strings (confusing (newline is not part of string); inconsistent browser support; poor editor support for indentation)
+* Do not use multi-line strings: confusing (newline is not part of string); inconsistent browser support; poor editor support for indentation
 ```javascript
 // Correct
 var myString = 'a multi line string' +
