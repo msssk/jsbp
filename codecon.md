@@ -215,7 +215,7 @@ var data = {
 * Put script elements at the bottom of the body element to prevent blocking rendering of the HTML
 * Use `DocumentFragment` when it makes sense
 * Use event delegation when it makes sense
-* Be specific with CSS queries, but only as specific as necessary
+* Be specific with CSS selectors, but only as specific as necessary
 ```css
 /* If both match the same elements, the first selector is more performant: */
 .elementClass {}
@@ -293,7 +293,7 @@ foo();
 // Incorrect
 (foo());
 ```
-* Wrap IIFEs (Immediately Invoked Function Expressions) with parentheses
+* Wrap IIFEs (Immediately Invoked Function Expressions) with parentheses (for clarity)
 ```javascript
 // Correct
 (function () {
@@ -306,6 +306,27 @@ function () {
 }();
 ```
 * Use a consistent variable name as an alias for `this` (recommended: `self`). Aliasing `this` is useful when calling functions that lose context.
+```javascript
+function MyWidgetConstructor () { /* ... */ }
+
+MyWidgetConstructor.prototype = {
+	render: function () {
+		var self = this;
+		var people = [
+			{ firstName: 'Bill', lastName: 'West' },
+			{ firstName: 'John', lastName: 'Smith' }
+		];
+
+		people.forEach(function (person) {
+			self._formatName(person);
+		});
+	},
+
+	_formatName: function (itemData) {
+		return person.firstName + ' ' + person.lastName;
+	}
+};
+```
 * Do not reuse variable names as label names
 * Do not use trailing underscores in variable names
 * Specify the value being tested first and the value it is being compared against second in comparisons
