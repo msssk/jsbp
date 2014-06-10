@@ -41,7 +41,7 @@ var data = [
 	1,
 	2, // <-- trailing comma
 ];
-```d
+```
 * Always place an opening brace on the same line as the associated statement
 ```javascript
 // Correct
