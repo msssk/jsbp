@@ -12,14 +12,6 @@ Some of the rules below include example code with some examples labelled 'Correc
 * Define variables and functions before using them (improves clarity; reduces pitfalls related to implicit globals and hoisting)
 * Declare all variables at the top of the scope and avoid implicit globals. Declaring variables at the top of the scope ensures that any assignment happens to the local reference.
 * Use strict comparison operators (`===` and `!==` instead of `==` and `!=`) since the behavior is easier to understand and remember, and in most well-designed code is the desirable behavior anyway. (The rules JavaScript follows for type coercion can be complicated and few programmers know them all.)
-* Don't use repeated spaces in regular expressions (counting them is error-prone)
-```javascript
-// Correct
-var regex = /foo {3}bar/;
-
-// Incorrect
-var regex = /foo   bar/;
-```
 * Do not use trailing commas (behavior is inconsistent across browsers)
 ```javascript
 // Correct
@@ -71,7 +63,7 @@ return
 	}
 };
 ```
-* Keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into submodules. JSHint can analyze the cyclomatic complexity of your code.
+* In general, try to keep cyclomatic complexity less than 10. Cyclomatic complexity is a measure of the number of possible independent paths through code. Conditional statements introduce additional paths that may be followed at execution time. High cyclomatic complexity leads to code that is difficult to understand and error-prone. It can generally be avoided by further decomposing the code into smaller functions. JSHint can analyze the cyclomatic complexity of your code.
 * Do not overwrite declared functions (leads to confusing code)
 ```javascript
 function foo () { /* ... */ };
@@ -145,12 +137,55 @@ var myString = 'a multi line\
 * Do not use the global value `NaN` with comparison operators: use the `isNaN` function (comparisons with `NaN` always evaluate to false)
 * Always pass the radix parameter to `parseInt` (prior to ES5 `parseInt` would auto-detect the radix with potentially surprising results)
 * Do not use nested ternary operators (creates potentially confusing code)
-* Avoid fallthrough behavior of switch statements
+* Avoid fallthrough behavior of switch statements. If using fallthrough behavior, add a comment to indicate it is intentional.
+```javascript
+// Correct
+switch (myVar) {
+	case 'a':
+		/* ... */
+		// fall through
+	case 'b':
+		/* ... */
+		break;
+	default:
+		/* ... */
+}
+
+// Incorrect
+switch (myVar) {
+	case 'a':
+		/* ... */
+	case 'b':
+		// Surprise! 'a' fell through to here!
+		/* ... */
+		break;
+	default:
+		/* ... */
+}
+```
 * Do not use ES5 strict mode globally (it may break 3rd-party libraries, such as Dojo)
 * Avoid deeply nested functions (nesting beyond about 4 levels deep becomes difficult to understand and reason about)
 * Filter `for...in` statements with `hasOwnProperty` if you only want properties on the object itself, not properties on all objects in the prototype chain as well
 * Avoid using `with` (`with` blocks are error-prone and can easily lead to accidentally clobbering variables)
 * Use feature detection instead of browser detection (feature detection is more reliable and future-proof)
+```javascript
+// Correct: feature detection
+if (document.addEventListener) {
+	document.addEventListener(/* ... */);
+}
+else if (document.attachEvent) {
+	document.attachEvent(/* ... *);
+}
+
+// Incorrect: user-agent sniffing / browser sniffing
+if (/Gecko/.test(navigator.userAgent)) {
+	document.addEventListener(/* ... */);
+}
+else if (/MSIE/.test(navigator.userAgent)) {
+	document.attachEvent(/* ... */);
+}
+```
+* Use JavaScript to register event handlers, and use `addEventListener` (or `attachEvent` for IE <9) rather than the event name properties (e.g. `onClick`) of a node. Using event listener methods allows complete control over adding and removing handlers, avoids accidental clobbering of other handlers, and removes the need to expose handler functions in the global scope.
 
 
 ### Objects
@@ -209,11 +244,12 @@ var data = {
 	* Avoid inline styles when possible: use CSS classes to vary between different layouts (each individual inline style assignment can trigger DOM updates; a group of style changes can be applied in a single DOM update by changing the CSS class of an element)
 	* Change CSS classes as low in the DOM tree as possible. To change the display of an element, prefer changing the CSS class of the element directly instead of changing the CSS class of a parent element.
 	* Minimize the number of CSS rules and remove unused rules
+	* Use animations sparingly as they can cause reflows, and prefer CSS transitions/animations to JavaScript
 	* Remove animated elements from the document flow. When an element is animated it may trigger reflow of surrounding elements. If the element's position is independent of surrounding elements, use absolute or fixed positioning to remove the element from the document flow so that it can more efficiently be animated.
 	* Avoid HTML tables for layout (or set `table-layout` to `fixed`). The layout of cells in non-fixed tables may be affected by cells lower down in the table, so the rendering process is slower.
 * Put script elements at the bottom of the body element to prevent blocking rendering of the HTML
 * Use [`DocumentFragment`](https://developer.mozilla.org/en-US/docs/Web/API/document.createDocumentFragment) when it makes sense
-* Use [event delegation](http://davidwalsh.name/event-delegate) when it makes sense
+* Use [event delegation](http://stackoverflow.com/a/1688293/237950) when it makes sense
 * Be specific with CSS selectors, but only as specific as necessary. Besides being less performant, overly specific selectors hinder maintenance and customization.
 ```css
 /* If both match the same elements, prefer the first one: */
@@ -228,6 +264,8 @@ var data = {
 
 ### Clean, Legible Coding
 
+* Avoid abbreviating or truncating the words used in variable names (reduces readability and increases likelihood of typos)
+* Spell the words used in variable names correctly and consistently
 * Keep source code free of unused variables
 * Do not commit unreachable code
 * Do not commit code with `debugger` statements
@@ -258,6 +296,26 @@ makeDraggable(myWidget);
 * Ensure that `return`, `throw`, and `case` are always followed by a space
 * Ensure that unary operators (e.g. `typeof`, `new`) are followed by a space
 * Always enclose bodies of conditional statements in braces
+```javascript
+// Correct
+if (condition) {
+	doSomething();
+}
+
+// Incorrect
+if (condition)
+	foo();
+
+// While this will work, a later edit that looks right will not work:
+if (condition)
+	foo();
+	bar();
+// This is equivalent to:
+if (condition) {
+	foo();
+}
+bar();
+```
 * Only quote property names when necessary (if the property name contains special characters)
 ```javascript
 // Correct
@@ -274,7 +332,7 @@ var data = {
 };
 ```
 * Do not use octal escapes (e.g. '\251') in JavaScript strings: they are deprecated in ES5; use Unicode ('\uXXX') or hex ('\xXX')
-* Do not introduce whitespace between a function name and the parentheses that invoke it (reduces clarity)
+* When invoking functions, do not introduce whitespace between the function name and parentheses (reduces clarity)
 ```javascript
 // Correct
 foo();
@@ -292,7 +350,7 @@ foo();
 // Incorrect
 (foo());
 ```
-* Wrap IIFEs (Immediately Invoked Function Expressions) with parentheses (for clarity)
+* Wrap IIFEs ([Immediately Invoked Function Expressions](http://benalman.com/news/2010/11/immediately-invoked-function-expression/)) with parentheses (for clarity)
 ```javascript
 // Correct
 (function () {
@@ -309,26 +367,23 @@ function () {
 function MyWidgetConstructor () { /* ... */ }
 
 MyWidgetConstructor.prototype = {
-	render: function () {
+	onFocus: function () {
 		var self = this;
-		var people = [
-			{ firstName: 'Bill', lastName: 'West' },
-			{ firstName: 'John', lastName: 'Smith' }
-		];
 
-		people.forEach(function (person) {
-			// The anonymous function passed to 'forEach' has global
+		setTimeout(function () {
+			// The anonymous function passed to 'setTimeout' has global
 			// context: `this` will be the global object ('window')
-			// Using the 'self' alias we can access the '_formatName' method
-			self._formatName(person);
-		});
+			// Using the 'self' alias we can access the '_displayPopup' method
+			self._displayPopup();
+		}, 500);
 	},
 
-	_formatName: function (itemData) {
-		return person.firstName + ' ' + person.lastName;
+	_displayPopup: function () {
+		/* ... */
 	}
 };
 ```
+* Use leading underscores in property names as a convention indicating they are not part of the public API and are only intended for use internally and by extensions
 * Do not use trailing underscores in variable names
 * Specify the value being tested first and the value it is being compared against second in comparisons
 ```javascript
